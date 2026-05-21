@@ -135,6 +135,7 @@ portfolio-root/
 | **POST** | `/api/auth/login` | Secure administrator authentication | **Public** | `{ email, password }` |
 | **GET** | `/api/auth/me` | Retrieve authenticated user profile | **Admin Only (Token Required)** | *None* |
 | **PUT** | `/api/auth/change-password` | Change administrator password | **Admin Only (Token Required)** | `{ currentPassword, newPassword }` |
+| **PUT** | `/api/auth/update-account` | Update administrator account details | **Admin Only (Token Required)** | `{ currentPassword, newPassword }` |
 
 ### 📁 Projects Module
 | HTTP Method | Path | Description | Access Level | Request Body / Params |

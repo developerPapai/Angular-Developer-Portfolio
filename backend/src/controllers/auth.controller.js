@@ -50,12 +50,21 @@ const getMe = async (req, res) => {
   res.json({ success: true, user: req.user });
 };
 
-// PUT /api/auth/change-password
-const changePassword = async (req, res, next) => {
+// PUT /api/auth/update-account
+const updateAccount = async (req, res, next) => {
   try {
-    const { currentPassword, newPassword } = req.body;
-    if (!currentPassword || !newPassword) {
-      return res.status(400).json({ success: false, message: 'Current password and new password are required' });
+    const { currentPassword, email, password } = req.body;
+    
+    // Support newPassword key if called from old client/changePassword wrapper
+    const newPassword = password || req.body.newPassword;
+    const newEmail = email;
+
+    if (!currentPassword) {
+      return res.status(400).json({ success: false, message: 'Current password is required to verify changes' });
+    }
+
+    if (!newEmail && !newPassword) {
+      return res.status(400).json({ success: false, message: 'Please provide either a new email or a new password' });
     }
 
     // Retrieve user with password
@@ -69,14 +78,43 @@ const changePassword = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Incorrect current password' });
     }
 
-    // Set and save new password (pre-save middleware handles hashing)
-    user.password = newPassword;
+    // If changing email, check if it's already in use
+    if (newEmail && newEmail.toLowerCase() !== user.email.toLowerCase()) {
+      const emailExists = await User.findOne({ email: newEmail.toLowerCase() });
+      if (emailExists) {
+        return res.status(400).json({ success: false, message: 'Email is already in use' });
+      }
+      user.email = newEmail.toLowerCase();
+    }
+
+    // If changing password
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long' });
+      }
+      user.password = newPassword;
+    }
+
     await user.save();
 
-    res.json({ success: true, message: 'Password changed successfully' });
+    // Sign a new token since user details might have changed
+    const token = signToken(user._id);
+
+    res.json({
+      success: true,
+      message: 'Account credentials updated successfully',
+      token,
+      user: { id: user._id, email: user.email, role: user.role }
+    });
   } catch (err) {
     next(err);
   }
 };
 
-export { login, seed, getMe, changePassword };
+// PUT /api/auth/change-password (legacy route / wrapper)
+const changePassword = async (req, res, next) => {
+  req.body.password = req.body.newPassword;
+  return updateAccount(req, res, next);
+};
+
+export { login, seed, getMe, changePassword, updateAccount };

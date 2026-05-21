@@ -38,7 +38,7 @@ export const routes: Routes = [
     title: 'Profile | Admin'
   },
   {
-    path: 'change-password',
+    path: 'change-credentials',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/change-password/change-password.component').then(m => m.ChangePasswordComponent),
     title: 'Change Password | Admin'

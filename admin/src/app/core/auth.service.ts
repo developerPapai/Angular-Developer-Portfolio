@@ -64,6 +64,20 @@ export class AuthService {
     );
   }
 
+  updateAccount(data: { currentPassword: string, email?: string, password?: string }) {
+    return this.http.put<{success: boolean, message: string, token: string, user: User}>(
+      `${environment.apiUrl}/auth/update-account`,
+      data
+    ).pipe(
+      tap(res => {
+        if (typeof window !== 'undefined' && res.token && res.user) {
+          localStorage.setItem('admin_token', res.token);
+          this.currentUserSubject.next(res.user);
+        }
+      })
+    );
+  }
+
   private checkToken() {
     if (typeof window !== 'undefined' && this.token) {
       // Decode token to get user info or verify on backend
