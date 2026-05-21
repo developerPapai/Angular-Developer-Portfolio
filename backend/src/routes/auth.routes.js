@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { login, seed, getMe } from '../controllers/auth.controller.js';
+import { login, seed, getMe, changePassword } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 
 /**
@@ -25,5 +25,6 @@ import { protect } from '../middleware/auth.middleware.js';
 router.post('/login', login);
 router.post('/seed', seed);
 router.get('/me', protect, getMe);
+router.put('/change-password', protect, changePassword);
 
 export default router;

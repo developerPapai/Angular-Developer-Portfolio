@@ -57,6 +57,13 @@ export class AuthService {
     }
   }
 
+  changePassword(data: { currentPassword: string, newPassword: string }) {
+    return this.http.put<{success: boolean, message: string}>(
+      `${environment.apiUrl}/auth/change-password`,
+      data
+    );
+  }
+
   private checkToken() {
     if (typeof window !== 'undefined' && this.token) {
       // Decode token to get user info or verify on backend
