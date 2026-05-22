@@ -9,12 +9,12 @@ export const routes: Routes = [
   {
     path: 'projects',
     loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
-    title: 'Projects | developerPapai'
+    title: 'Projects | Papai'
   },
   {
     path: '**',
     loadComponent: () =>
       import('./pages/not-found/not-found.component').then((m) => m.NotFoundComponent),
-    title: 'Page Not Found | developerPapai',
+    title: 'Page Not Found | Papai',
   },
 ];
