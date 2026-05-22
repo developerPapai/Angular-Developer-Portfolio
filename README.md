@@ -1,4 +1,4 @@
-# 🚀 Modern Full-Stack Developer Portfolio & CMS
+# 🚀 Modern Developer Portfolio & CMS
 
 [![Angular](https://img.shields.io/badge/Angular-18.2-DD0031.svg?style=flat-square&logo=angular)](https://angular.dev)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-339933.svg?style=flat-square&logo=nodedotjs)](https://nodejs.org)
