@@ -38,7 +38,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.title.setTitle('Project Archive | Papai');
+    this.title.setTitle('Projects | developerPapai');
     this.meta.updateTag({ name: 'description', content: 'A complete collection of my software development projects.' });
 
     this.projectsService.getProjects().subscribe({

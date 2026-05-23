@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.title.setTitle('Papai | Full Stack Developer');
+    this.title.setTitle('Home | developerPapai');
 
     this.profileService.getProfile().subscribe({
       next: (res) => {
