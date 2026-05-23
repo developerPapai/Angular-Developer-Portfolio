@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.projectsService.getProjects(true).subscribe({
       next: (res) => {
-        this.featuredProjects = res.data.slice(0, 3);
+        this.featuredProjects = res.data.slice(0, 6);
         this.isLoadingProjects = false;
       },
       error: () => this.isLoadingProjects = false
